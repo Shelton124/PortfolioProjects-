@@ -1,6 +1,6 @@
 */
 This will be a COVID 19 Data Exploration 
-The skills used are: Joins, Temptables, windows Function, Aggregate functions, creating views, Converting data types 
+The skills used are: Joins,CTE, Temptables, windows Function, Aggregate functions, creating views, Converting data types 
 */
 select *
 from portfolioproject..coviddeaths
