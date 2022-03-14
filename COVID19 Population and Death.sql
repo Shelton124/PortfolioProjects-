@@ -1,3 +1,7 @@
+*/
+This will be a COVID 19 Data Exploration 
+The skills used are: Joins, Temptables, windows Function, Aggregate functions, creating views, Converting data types 
+*/
 select *
 from portfolioproject..coviddeaths
 where continent is not null 
@@ -78,6 +82,7 @@ where continent is not null
 --group by date 
 order by 1,2
 -- Focusing at total Population vs Vaccinations
+-- Shows The Prentage of population that has recieved at least one COVID vaccine 
 
 select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations,
 sum(convert(int,vac.new_vaccinations)) over (partition by dea.location order by dea.location, dea.date) as rollingpeoplevaccinated
@@ -88,7 +93,22 @@ and dea. date = vac.date
 where dea.continent is not null 
 order by 2,3
 
--- We will be creating a Temp Table 
+-- We will be using CTE to perform calcualtions on partition by the previous query 
+
+With PopvsVac (Continent, Location, Date, Population, New_Vaccinations, RollingPeopleVaccinated)
+as
+(
+Select dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
+, SUM(CONVERT(int,vac.new_vaccinations)) OVER (Partition by dea.Location Order by dea.location, dea.Date) as RollingPeopleVaccinated
+--, (RollingPeopleVaccinated/population)*100
+From PortfolioProject..CovidDeaths dea
+Join PortfolioProject..CovidVaccinations vac
+	On dea.location = vac.location
+	and dea.date = vac.date
+where dea.continent is not null 
+--order by 2,3
+
+-- We will be creating a Temp Table form the previous query 
 
 Drop table if exists #PercentPopulationVaccinated
 Create Table #PercentPopulationVaccinated
