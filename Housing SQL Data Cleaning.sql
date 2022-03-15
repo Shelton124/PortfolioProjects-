@@ -1,3 +1,7 @@
+*/
+This will be Cleaning data in SQL Quires
+*/
+
 Select *
 from portfolioproject..NashvilleHousing
 
@@ -10,6 +14,8 @@ from portfolioproject..NashvilleHousing
 
 update NashvilleHousing
 Set saledate = convert(date,SaleDate)
+
+-- IF the data doesn't update properly
 
 Alter Table Nashvillehousing
 add saledateconverted date;
