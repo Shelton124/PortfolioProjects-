@@ -81,6 +81,13 @@ from portfolioproject..coviddeaths
 where continent is not null 
 --group by date 
 order by 1,2
+
+select*
+from portfolioproject..covideaths dea 
+join protfolioproject..covidvaccinations vac
+on dea.loaction = vac. loaction 
+and dea.date = vac.date 
+
 -- Focusing at total Population vs Vaccinations
 -- Shows The Prentage of population that has recieved at least one COVID vaccine 
 
