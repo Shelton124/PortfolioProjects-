@@ -1,0 +1,101 @@
+import pandas as pd 
+
+df= pd.read_csv(r"/Users/sheltonjeanbaptiste/Downloads/data•2.csv"csv.low_memory=false) 
+df
+
+# Using histograph to illustrate the distribuion loan amount #
+# What are the distrubtion loan amount? ##
+
+df[ 'loan_amnt'].hist(bins =50,edgecolor='black') 
+
+# Identidfy the min and max amounts to understand the rage the platfrom operates # 
+
+min_loan = df['loan_amnt'].min()
+max_loan = df['loan_amnt'].max()
+print(f"minimum loan: ${min_loan}")
+print(f"maximum laon: ${max_loan}")
+
+# calculate Q1 and Q3 to identify the outliers) 
+
+Q1 = df['loan_amnt'].quantile(0.25)
+Q3 = df['loan_amnt'].quantile(0.75)
+
+#Calculate IQR 
+
+IQR = Q3-Q1
+
+# Define bounds for outliers
+
+Lower_bound = Q1 - 1.5 * IQR 
+upper_bound = Q3 + 1.5 * IQR 
+
+# Filter the dataframe for outliers (any dart below the lower bound or above the uppper bound will be and outlier) 
+
+Outliers = df[(df['loan_amnt'] < lower_bound) | (df['loan_amnt'] > upper_bound)]
+print(f"number of the outliers detected: {len(outliers)}")
+print(f"Lower bound for outliers: ${lower_bound}")
+print(f"upper bound for outliers: ${upper_bound}")
+
+# Identify the avg loan 
+
+avg_loan =- df ['loan_amnt'.mean() 
+print(f"average loan amount: ${avg_loan:.2f}")
+
+#Identify the mod 
+
+mode_loan = df['loan_amnt'].mode()[0]
+print(f"mode loan amount: ${mode_loan:.2f}")
+
+# Skewness ( understand the majority of borrows trends lower amount = positive skew or higher amounts = negative skew )
+# 0 indecates a system distrubtion = variables appear on regular frequency 
+# postive skewness indicates a distribution that is skewed to the right.
+# negative skewness indicates a distribution thats is skewed to the left. 
+
+Skewness = df['loan_amnt'].skew()
+print(f"skewness of loan amount: {skewness:.2f}")
+
+# What are the distrubtion loan grades ? & how deos the default rate vary across different loan grades 
+# use a bar plot showing the loan grades 
+# Find which grade is most popular / most middle grade are commo less risk 
+
+grades_ counts = df['grade'].value_counts().sort_index
+df['grade'].value_counts().sort_index().plot(kind='bar',title='distribution of loan grades')
+print(grade_counts)
+
+# what are the distrubion loan gardes? & how does the default rates varyacross different loan gardes 
+# use a bar plot showing the loan grades
+# find which  grade is most popular/ not middle grades are common less risk 
+
+grades_counts = df['grade'].value_counts().sort_index
+df['grade'].value_counts(),sort_index().plot(kind = 'bar', title ='distrubtion of loan grades')
+print(grade_counts)
+
+#calculate the default by grade 
+#Hire grades should reperesent lower risk/ lower grades represent higehr risk 
+#using bar ploting 
+
+defualt_rates_by_grade = df.groupby('grade')['default_ind'].mean()
+print("default rates by grade: ") 
+print(default_rates_by_grade.sort_values(ascending=false))
+default_rates_by_grade.plot(kind= 'bar',title="default rate by loan grade")
+
+# what purpose do people money for? & how does defualt rate differ based on the loan purpose 
+# distrubtion loan pupose / wil use a bar plot 
+# would show the primary reason that people are borrwoning money
+
+purpose_counts= df['purpose'].balue_counts()
+print(purpose_counts) 
+df['purpose'].value_counts().plot(kind = 'bar', title = "distrubtion of the loan purpose" ) 
+
+# (Defaultrang) calculate the defualt range on the loan purpose 
+# Will be using a plot graph to calculate the range 
+# will see the correct default rates on the default_ind column for both loan grades and loan purpose 
+# loans like = luxury,vacation, will have higher risk compared to essentail ones like home improvement 
+
+default_rates_by_purpose = df.groupby('purpose')['default_ind'].mean()
+print("default rates by purpose")
+print(default_rates_by_purpose.sort_values(ascending = false))
+default_rates_by_purpose.sort_values(ascending=false).plot(kind ='bar',title="default rate by loan Purpose")
+
+
+
